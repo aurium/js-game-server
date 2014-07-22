@@ -1,4 +1,4 @@
-# [Javascript Game Server](http://aurium.github.io/js-game-server)
+# [Sandboxed Javascript Game Server](http://aurium.github.io/js-game-server)
 The proposal game server for the [js13kGames Competition](http://js13kgames.com).
 
 ## Deploy
