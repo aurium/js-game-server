@@ -1,5 +1,5 @@
-# Javascript Game Server
-The proposal game server for the js13kGames Competition
+# [Javascript Game Server](http://aurium.github.io/js-game-server)
+The proposal game server for the [js13kGames Competition](http://js13kgames.com).
 
 ## Deploy
 ```sh
@@ -24,3 +24,7 @@ Try it with the game examples:
 $ GAMES_DIR=examples npm start
 ```
 
+## Contributing
+
+[Register a issue](http://github.com/aurium/js-game-server/issues),
+clone, code, push and request a merge.
