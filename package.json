@@ -1,0 +1,31 @@
+{
+  "name": "js-game-server",
+  "description": "Sandboxed JavaScript Game Server",
+  "version": "0.0.2",
+  "homepage": "http://aurium.github.io/js-game-server",
+  "bugs": { "url" : "http://github.com/aurium/js-game-server/issues" },
+  "keywords": ["game", "server"],
+  "author": "Aurélio A. Heckert <aurium@colivre.coop.br>",
+  "contributors": [],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/aurium/js-game-server.git"
+  },
+  "license": "AGPLv3",
+  "engines": {
+    "node": ">=0.10.x"
+  },
+  "devDependencies": {
+    "mocha": "1.20.*",
+    "should": "4.0.*"
+  },
+  "dependencies": {
+    "socket.io": "1.0.*",
+    "async": "0.9.*"
+  },
+  "scripts": {
+    "start": "node ./app/game-server.js",
+    "test": "node ./node_modules/.bin/mocha --require should"
+  },
+  "main": "./app/game-server.js"
+}
