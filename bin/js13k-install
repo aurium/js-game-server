@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+
+var program = require('commander');
+var fs = require('fs');
+var path = require('path');
+
+// Usage
+program
+  .usage('[name]')
+  .parse(process.argv);
+
+// Help
+program.on('--help', function(){
+  console.log('  Examples:');
+  console.log();
+  console.log('    # install a game');
+  console.log('    $ js13k install some-game');
+  console.log();
+  process.exit();
+});
+
+// TODO(ooflorent): Add the game to GAMES_DIR

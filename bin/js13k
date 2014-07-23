@@ -1,0 +1,43 @@
+#!/usr/bin/env node
+
+var program = require('commander');
+var spawn = require('child_process').spawn;
+var fs = require('fs');
+var path = require('path');
+
+// Usage
+program
+  .version(require('../package').version)
+  .usage('<command> [options]')
+  .parse(process.argv);
+
+// Help
+program.on('--help', function(){
+  console.log('  Commands:');
+  console.log();
+  console.log('    install        install a game');
+  console.log('    ls             list installed games');
+  console.log('    uninstall      uninstall a game');
+  console.log();
+  process.exit();
+});
+
+var cmd = program.args[0];
+if (!cmd) {
+  program.help();
+} else {
+  cmd = 'js13k-' + cmd;
+}
+
+var bin = path.join(__dirname, cmd);
+if (!fs.existsSync(bin)) {
+  console.error('\n  %s does not exist', cmd);
+  program.help();
+}
+
+var args = process.argv.slice(3);
+var proc = spawn(bin, args, {stdio: 'inherit'});
+
+proc.on('close', function(code) {
+  process.exit(code);
+});
