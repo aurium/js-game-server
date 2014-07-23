@@ -1,0 +1,11 @@
+{
+  "games_directory": "./games",
+  "sanctioned_modules": [
+    "assert",
+    "buffer",
+    "events",
+    "path",
+    "querystring",
+    "string_decoder"
+  ]
+}
