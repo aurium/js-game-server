@@ -30,7 +30,7 @@
   },
   "main": "./lib/main.js",
   "scripts": {
-    "start": "node ./lib/index.js",
+    "start": "node ./lib/main.js",
     "test": "node ./node_modules/.bin/mocha --require should"
   },
   "bin": {
