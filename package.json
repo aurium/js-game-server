@@ -1,6 +1,6 @@
 {
-  "name": "js-game-server",
-  "description": "Sandboxed JavaScript Game Server",
+  "name": "sandboxer",
+  "description": "Sandboxed JavaScript Server",
   "version": "0.1.0",
   "author": "Aurélio A. Heckert <aurium@colivre.coop.br>",
   "contributors": [
@@ -32,8 +32,6 @@
     "test": "node ./node_modules/.bin/mocha --require should"
   },
   "bin": {
-    "js13k": "./bin/js13k",
-    "js13k-install": "./bin/js13k-install",
-    "js13k-uninstall": "./bin/js13k-uninstall"
+    "sandboxer": "./bin/sandboxer.js"
   }
 }
