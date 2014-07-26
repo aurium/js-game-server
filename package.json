@@ -24,12 +24,13 @@
   },
   "devDependencies": {
     "mocha": "^1.20.1",
-    "should": "^4.0.4"
+    "should": "^4.0.4",
+    "sinon": "1.10.*"
   },
   "main": "./index.js",
   "scripts": {
     "start": "node ./index.js",
-    "test": "node ./node_modules/.bin/mocha --require should"
+    "test": "node ./node_modules/.bin/mocha --require sinon --require should"
   },
   "bin": {
     "js13k": "./bin/js13k",
