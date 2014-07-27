@@ -1,5 +1,5 @@
 {
-  "games_directory": "./games",
+  "games_directory": "./examples",
   "sanctioned_modules": [
     "assert",
     "buffer",
@@ -10,5 +10,8 @@
   ],
   "log": {
     "withColors": true
-  }
+  },
+  "domain": "localhost",
+  "lobbyPort": 3000,
+  "gamePortStart": 3001
 }

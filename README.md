@@ -34,7 +34,10 @@ The `config.json` is a JSON file *(O RLY?)* with this structure:
   "log": { /* this section is optional */
     "withColors": /* (boolean) you want colorful logs? */,
     "toFile": /* (string) a file path, or "STDIO" */
-  }
+  },
+  "domain": /* (string) defaults to localhost */
+  "lobbyPort": /* (integer) the main httpd, that list games. */,
+  "gamePortStart": /* (integer) Game ports are sequential. */
 }
 ```
 Colorful logs are useful for devs, but not for grep in production history.
