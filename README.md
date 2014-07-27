@@ -11,17 +11,9 @@ $ npm test
 
 ## Running
 
-You must to set the `GAMES_DIR` environment variable to the server.
-
-On BASH-like consoles you have a pretty simple one-line command:
 ```sh
 $ cd /path/to/js-game-server
-$ GAMES_DIR=/the/dir/with/games npm start
-```
-
-Try it with the game examples:
-```sh
-$ GAMES_DIR=examples npm start
+$ npm start
 ```
 
 ## Configuring
