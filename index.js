@@ -15,7 +15,7 @@ exports.main = function() {
     process.exit(1);
   }
 
-  var sandboxer = new (require('./lib'));
+  var sandboxer = new (require('./lib/sandboxer'));
   var directories = sandboxer.list();
 
   directories.forEach(function(directory, index) {
