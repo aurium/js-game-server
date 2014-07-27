@@ -1,29 +1,41 @@
 "use strict";
 
 var sinon = require('sinon');
+var config = require('../lib/config');
+var fs = require('fs');
+var mockFS;
 
 describe('Configuration', function() {
+
   describe('Load Configuration', function() {
 
-    var gameServer = require('..');
-    gameServer.configPlaces = [
-      'nowhere1/config.json',
-      'nowhere2/config.json',
-      './config.dist.json'
+    require('../lib/logger').setWriteTo('/dev/null');
+    beforeEach(function() { mockFS = sinon.mock(fs) });
+    afterEach(function () { mockFS.restore(); config.clearCache() });
+
+    config.configPlaces = [          /*must warn?*/
+      [ 'nowhere1/config.json', null,  false ],
+      [ 'nowhere2/config.json', null,  true  ],
+      [ 'nowhere3/config.json', null,  true  ],
+      [ '../config.dist.json',  null,  true  ]
     ];
-    var mock = sinon.mock(console); // TODO: (re)write a log lib to don't mock console.
 
     it('should load the default file when all other fails', function() {
-      gameServer.loadConfig().should
-                             .have.property('sanctioned_modules')
-                             .with.lengthOf(6);
+      config.loadConfig().should
+                         .have.property('sanctioned_modules')
+                         .with.lengthOf(6);
     });
 
-    it('should log configPlaces.length times', function() {
-      mock.expects('log').exactly(gameServer.configPlaces.length);
-      gameServer.loadConfig();
-      mock.verify();
+    it('should log "<must warn?>==true" times', function() {
+      mockFS.expects('writeFile').exactly(3);
+      config.loadConfig();
+      mockFS.verify();
+    });
+
+    it('should load the config when user try to get some data', function() {
+      config.get('sanctioned_modules').should.have.lengthOf(6);
     });
 
   });
+
 });

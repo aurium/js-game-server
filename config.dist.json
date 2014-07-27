@@ -8,5 +8,7 @@
     "querystring",
     "string_decoder"
   ],
-  "logWithColors": true
+  "log": {
+    "withColors": true
+  }
 }
