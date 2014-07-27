@@ -16,11 +16,7 @@ exports.main = function() {
   }
 
   var sandboxer = new (require('./lib/sandboxer'));
-  var directories = sandboxer.list();
-
-  directories.forEach(function(directory, index) {
-    sandboxer.spawn(directory, 3001 + index);
-  });
+  for ( var game in sandboxer.list() ) sandboxer.spawn(game);
 }
 
 if (!module.parent) {
