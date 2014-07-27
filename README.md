@@ -26,13 +26,13 @@ $ GAMES_DIR=examples npm start
 
 ## Configuring
 
-You can place the configuration in on of this places:
+You can place the configuration in one of this places:
 - user local config dir: `$HOME/.config/js-game-server/config.json`
-- System config dir: `/etc/js-game-server/config.json`
-- In the application root: `<js-game-server-dir>/config.json`
+- system config dir: `/etc/js-game-server/config.json`
+- in the application root: `<js-game-server-dir>/config.json`
 This list is ordered in precedence order.
 
-The `config.json` is a JSON (O RLY?) file with this structure:
+The `config.json` is a JSON file *(O RLY?)* with this structure:
 ```javascript
 {
   "games_directory": /* where the server can find game dirs to load? */,
