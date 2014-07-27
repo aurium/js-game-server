@@ -8,18 +8,17 @@ var fs = require('fs');
 describe('Logger', function() {
 
   beforeEach(function() {
-    sinon.stub(fs, 'writeFile');
+    sinon.stub(fs, 'appendFile');
   });
 
   afterEach(function () {
-    fs.writeFile.restore();
+    fs.appendFile.restore();
   });
 
   it('should log', function() {
     logFactory.setWriteTo('/dev/null');
     log('testing');
-    sinon.assert.calledOnce(fs.writeFile);
-    sinon.assert.calledWithMatch(fs.writeFile, '/dev/null', 'testing');
+    sinon.assert.calledWithMatch(fs.appendFile, '/dev/null', 'testing');
     
   });
 
@@ -27,14 +26,14 @@ describe('Logger', function() {
     logFactory.setWriteTo('/dev/null');
     logFactory.setUseColors(false);
     log('testing', 123);
-    sinon.assert.calledWithMatch(fs.writeFile, '/dev/null', 'testing | 123');
+    sinon.assert.calledWithMatch(fs.appendFile, '/dev/null', 'testing | 123');
   });
 
   it('should log multiple complex args', function() {
     logFactory.setWriteTo('/dev/null');
     logFactory.setUseColors(false);
     log([11,22,33], {a:true, b:false});
-    sinon.assert.calledWithMatch(fs.writeFile,
+    sinon.assert.calledWithMatch(fs.appendFile,
       '/dev/null', /11, *22, *33.*\|.*a: *true, *b: *false/);
   });
 
@@ -42,7 +41,7 @@ describe('Logger', function() {
     logFactory.setWriteTo('/dev/null');
     logFactory.setUseColors(true);
     log('testing', 123);
-    sinon.assert.calledWithMatch(fs.writeFile, '/dev/null', /testing | .*123/);
+    sinon.assert.calledWithMatch(fs.appendFile, '/dev/null', /testing | .*123/);
   });
 
   it('should log to STDIO', function() {
