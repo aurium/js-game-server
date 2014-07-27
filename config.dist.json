@@ -7,5 +7,6 @@
     "path",
     "querystring",
     "string_decoder"
-  ]
+  ],
+  "logWithColors": true
 }
