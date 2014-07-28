@@ -17,11 +17,11 @@ exports.main = function() {
     process.exit(1);
   }
 
-  sandboxer = new (require('./lib/sandboxer'));
+  sandboxer = new (require('./lib/sandboxer'))();
   for ( var game in sandboxer.list() ) sandboxer.spawn(game);
 
   exports.startLobby();
-}
+};
 
 exports.startLobby = function() {
   var domain = config.get('domain') || 'localhost';
@@ -36,7 +36,7 @@ exports.startLobby = function() {
       res.write('<li><a href="//'+domain+':'+list[game].port+'/">'+game+'</a></li>');
     res.end();
   }).listen(port);
-}
+};
 
 if (!module.parent) {
   // This script was *not* required by a test or someother thing.

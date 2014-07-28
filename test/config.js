@@ -10,8 +10,8 @@ describe('Configuration', function() {
   describe('Load Configuration', function() {
 
     require('../lib/logger').setWriteTo('/dev/null');
-    beforeEach(function() { mockFS = sinon.mock(fs) });
-    afterEach(function () { mockFS.restore(); config.clearCache() });
+    beforeEach(function() { mockFS = sinon.mock(fs); });
+    afterEach(function () { mockFS.restore(); config.clearCache(); });
 
     config.configPlaces = [          /*must warn?*/
       [ 'nowhere1/config.json', null,  false ],
