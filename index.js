@@ -8,7 +8,7 @@ var http = require('http');
 var config = require('./lib/config');
 var logFactory = require('./lib/logger');
 var log = logFactory('SJGS Main');
-var sandboxer = new (require('./lib/sandboxer'));
+var sandboxer = null;
 
 exports.main = function() {
   // Ensure games directory exists
@@ -17,6 +17,7 @@ exports.main = function() {
     process.exit(1);
   }
 
+  sandboxer = new (require('./lib/sandboxer'));
   for ( var game in sandboxer.list() ) sandboxer.spawn(game);
 
   exports.startLobby();
