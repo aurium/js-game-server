@@ -21,13 +21,16 @@ $ npm start
 ## Configuring
 
 You can place the configuration in one of this places:
+
 - user local config dir: `$HOME/.config/js-game-server/config.json`
 - system config dir: `/etc/js-game-server/config.json`
 - in the application root: `<js-game-server-dir>/config.json`
+
 This list is ordered in precedence order.
 
-The `config.json` is a JSON file *(O RLY?)* with this structure:
-```javascript
+The `config.json` is a JSON file with this structure:
+
+```js
 {
   "games_directory": /* where the server can find game dirs to load? */,
   "sanctioned_modules": [ /* external allowed modules for sandbox require */ ],
@@ -40,11 +43,12 @@ The `config.json` is a JSON file *(O RLY?)* with this structure:
   "gamePortStart": /* (integer) Game ports are sequential. */
 }
 ```
+
 Colorful logs are useful for devs, but not for grep in production history.
 
 ## Contributing
 
-[Register a issue](http://github.com/aurium/js-game-server/issues),
+[Register an issue](http://github.com/aurium/js-game-server/issues),
 clone, code, push and request a merge.
 
 [1]: https://travis-ci.org/aurium/js-game-server.png

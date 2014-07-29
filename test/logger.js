@@ -1,12 +1,13 @@
-"use strict";
+'use strict';
+
+var fs = require('fs');
+var sinon = require('sinon');
+var should = require('should');
 
 var logFactory = require('../lib/logger');
-var sinon = require('sinon');
 var log = logFactory('test');
-var fs = require('fs');
 
 describe('Logger', function() {
-
   beforeEach(function() {
     sinon.stub(fs, 'appendFile');
   });
@@ -19,7 +20,6 @@ describe('Logger', function() {
     logFactory.setWriteTo('/dev/null');
     log('testing');
     sinon.assert.calledWithMatch(fs.appendFile, '/dev/null', 'testing');
-    
   });
 
   it('should log multiple args', function() {
@@ -52,5 +52,4 @@ describe('Logger', function() {
     mockConsole.verify();
     mockConsole.restore();
   });
-
 });
