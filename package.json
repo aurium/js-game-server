@@ -14,7 +14,7 @@
   ],
   "repository": "aurium/js-game-server",
   "engines": {
-    "node": "0.10.x"
+    "node": ">=0.10"
   },
   "dependencies": {
     "chalk": "0.5.x",
@@ -36,7 +36,7 @@
   "scripts": {
     "start": "node ./index.js",
     "lint": "eslint index.js lib/ test/",
-    "test": "mocha --reporter spec"
+    "test": "npm run-script lint && mocha --reporter spec"
   },
   "bin": {
     "js13k": "./bin/js13k",
