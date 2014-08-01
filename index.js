@@ -4,7 +4,7 @@ var fs = require('fs');
 var config = require('./lib/config');
 var logFactory = require('./lib/logger');
 var Sandboxer = require('./lib/sandboxer');
-var log = logFactory('SJGS Main');
+var log = logFactory(__filename);
 
 exports.main = function() {
   // Ensure games directory exists
@@ -24,7 +24,6 @@ exports.main = function() {
 if (!module.parent) {
   // This script was *not* required by a test or someother thing.
   var logConf = config.get('log') || {};
-  logFactory.setUseColors(logConf.withColors);
-  logFactory.setWriteTo(logConf.toFile || 'STDIO');
-  exports.main(process.env.GAMES_DIR);
+  logFactory.setConfig(logConf);
+  exports.main();
 }

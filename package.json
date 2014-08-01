@@ -24,7 +24,8 @@
     "merge": "1.1.x",
     "sandboxer": "~0.1.0",
     "socket.io": "1.0.x",
-    "stylus": "~0.42.3"
+    "stylus": "~0.42.3",
+    "winston": "~0.7.3"
   },
   "devDependencies": {
     "eslint": "~0.7.4",

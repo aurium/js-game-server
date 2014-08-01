@@ -35,7 +35,8 @@ The `config.json` is a JSON file with this structure:
   "games_directory": /* where the server can find game dirs to load? */,
   "sanctioned_modules": [ /* external allowed modules for sandbox require */ ],
   "log": { /* this section is optional */
-    "withColors": /* (boolean) you want colorful logs? */,
+    "withColors": /* (boolean) colors on console output */,
+    "silentSTDIO": /* (boolean) stop console log */,
     "toFile": /* (string) a file path, or "STDIO" */
   },
   "domain": /* (string) defaults to localhost */

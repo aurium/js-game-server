@@ -10,7 +10,7 @@ var mockFS;
 describe('Configuration', function() {
 
   describe('Load Configuration', function() {
-    require('../lib/logger').setWriteTo('/dev/null');
+    require('../lib/logger').setConfig({silentSTDIO:true});
 
     beforeEach(function() {
       mockFS = sinon.mock(fs);
@@ -30,12 +30,6 @@ describe('Configuration', function() {
 
     it('should load the default file when all other fails', function() {
       config.loadConfig().should.have.property('sanctioned_modules').with.lengthOf(6);
-    });
-
-    it('should log "<must warn?>==true" times', function() {
-      mockFS.expects('writeFile').exactly(3);
-      config.loadConfig();
-      mockFS.verify();
     });
 
     it('should load the config when user try to get some data', function() {

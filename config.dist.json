@@ -8,9 +8,6 @@
     "querystring",
     "string_decoder"
   ],
-  "log": {
-    "withColors": true
-  },
   "domain": "localhost",
   "lobbyPort": 3000,
   "gamePortStart": 3001
