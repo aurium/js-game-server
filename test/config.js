@@ -2,7 +2,7 @@
 
 var fs = require('fs');
 var sinon = require('sinon');
-var should = require('should');
+require('should');
 
 var config = require('../lib/config');
 var mockFS;
@@ -29,7 +29,8 @@ describe('Configuration', function() {
     ];
 
     it('should load the default file when all other fails', function() {
-      config.loadConfig().should.have.property('sanctioned_modules').with.lengthOf(6);
+      var conf = config.loadConfig();
+      conf.should.have.property('sanctioned_modules').with.lengthOf(6);
     });
 
     it('should load the config when user try to get some data', function() {
