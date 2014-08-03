@@ -3,7 +3,7 @@
 var fs = require('fs');
 var config = require('./lib/config');
 var logFactory = require('./lib/logger');
-var Sandboxer = require('./lib/sandboxer');
+var sandboxer = require('./lib/sandboxer');
 var log = logFactory(__filename);
 
 exports.main = function() {
@@ -13,12 +13,11 @@ exports.main = function() {
     process.exit(1);
   }
 
-  var sandboxer = new Sandboxer();
   for (var game in sandboxer.list()) {
     sandboxer.spawn(game);
   }
 
-  require('./lib/lobby').start(sandboxer);
+  require('./lib/lobby').start();
 };
 
 if (!module.parent) {
