@@ -24,8 +24,8 @@ describe('Game module', function() {
 
   it('should find main file', function() {
     var game = new Game('examples/some-game');
-    var dataDir = path.resolve('examples/some-game');
-    game.main.should.be.equal(path.join(dataDir,'game/index.js'));
+    var srcDir = path.resolve('examples/some-game/game');
+    game.main.should.be.equal(path.join(srcDir,'main.js'));
   });
 
 });

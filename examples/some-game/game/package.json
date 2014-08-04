@@ -1,3 +1,4 @@
 {
-  "name": "some-game"
+  "name": "some-game",
+  "main": "main.js"
 }

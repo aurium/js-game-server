@@ -1,10 +1,10 @@
-log(this,1+2,'abc');
+log('Hi! This is some game.');
 
-require('somemodule');
+var socketio = require('sandbox-io');
+log('Loaded sandbox-io', socketio);
 
-onConn(function(socket){
+socketio.on('connection', function(socket){
   socket.on('event', function(data){});
   socket.on('disconnect', function(){});
 });
 
-thisFunctionWillCrash(123);
