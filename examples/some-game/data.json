@@ -1,5 +1,5 @@
 {
   "title": "Some Game",
-  "description": "This is a dummy test.",
+  "description": "This is a dummy test, and this is some text to test the lobby.",
   "main": "main.js"
 }

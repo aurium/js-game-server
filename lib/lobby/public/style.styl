@@ -1,5 +1,104 @@
+*
+  margin: 0
+  padding: 0
+
 body
-  padding: 50px
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
+  padding: 30px 2% 30px 4%
+  font: 14px "Liberation Sans Narrow", "Arial Narrow", "Roboto Condensed", "Liberation Sans", Arial, sans-serif
+  background: #555
+  color: #EEE
 a
-  color: #00B7FF
+  color: #8CF
+
+#game-list
+  text-align: left
+  width: auto
+  margin: auto
+  h2 a
+    text-decoration: none
+    color: #EEE
+  >li
+    text-align: left
+    position: relative
+    list-style: none
+    display: inline-block
+    width: 280px
+    height: 130px
+    margin: 15px
+    text-shadow: 1px 1px 1px #000
+    >div
+      position: absolute
+      left: 0
+      top: 0
+      right: 0
+      width: auto
+      height: 100px
+      overflow: hidden
+      padding: 15px 10px 15px 130px
+      background: #444
+      box-shadow: inset 0 0 25px rgba(0,0,0,0.5)
+      border-radius: 20px
+      transition: 0.6s
+      .pic
+        display: block
+        text-decoration: none
+        color: #EEE
+        width: 100px
+        height: 100px
+        background-image: url(no-preview.svg)
+        background-size: cover
+        position: absolute
+        left: 15px
+        top: 15px
+        transition: 0.6s
+    >div:hover
+      background: #666
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.8)
+      transition: 0.4s
+      .pic
+        transition: 0.4s
+
+@media screen and (min-width: 901px)
+  h1
+    margin: 0 0 20px 15px
+
+  #game-list
+    width: 100%
+    >li
+      margin: 1.2%
+      width: 30%
+      >div:hover
+        left: -10px
+        right: -10px
+        top: -10px
+        width: auto
+        height: 120px
+        padding-left: 150px
+        border-radius: 25px
+        z-index: 2
+        .pic
+          width: 120px
+          height: 120px
+
+@media screen and (max-width: 900px)
+  body
+    padding: 15px 0
+    text-align: center
+  #game-list
+    text-align: center
+    width: 100%
+    >li
+      margin: 1%
+      width: 45%
+
+@media screen and (max-width: 550px)
+  body
+    padding: 20px
+  #game-list
+    width: 100%
+    >li
+      margin: 10px 0
+      width: 100%
+      >div
+        width: auto
+
