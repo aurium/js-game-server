@@ -3,4 +3,52 @@ body {
   color: #FFF;
   margin: 0;
   padding: 0;
+  font: 3vw sans-serif;
+  height: 100%;
 }
+
+h1 {
+  position: absolute;
+  top: 50%;
+  line-height: 1px;
+  width: 100%;
+  margin: 0;
+  text-align: center;
+  font-size: 15vw;
+  color: #555;
+}
+
+#game {
+  position: relative;
+  height: calc(100% - 6vh);
+  border: 3vh solid #FFF;
+  border-left: none;
+  border-right: none;
+}
+
+#pad1, #pad2 {
+  position: absolute;
+  top: 45%;
+  width: 2%;
+  height: 10%;
+  background: #FFF;
+}
+
+#pad1 {
+  left: 0%;
+}
+
+#pad2 {
+  left: 98%;
+}
+
+#ball {
+  position: absolute;
+  top: 48.5%;
+  left: 48.5%;
+  width: 3vw;
+  height: 3vw;
+  border-radius: 2vw;
+  background: #FFF;
+}
+
