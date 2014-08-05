@@ -1,0 +1,4 @@
+{
+  "name": "pong",
+  "main": "pong-srv.js"
+}
