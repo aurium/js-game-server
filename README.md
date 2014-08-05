@@ -47,6 +47,10 @@ The `config.json` is a JSON file with this structure:
 
 Colorful logs are useful for devs, but not for grep in production history.
 
+## Playing
+
+If you don't change the defaults, visit `http://localhost:3000` and you will see the game lobby, listing the example games. Click on any game and you will get it in another port with it's own http server.
+
 ## Contributing
 
 [Register an issue](http://github.com/aurium/js-game-server/issues),
