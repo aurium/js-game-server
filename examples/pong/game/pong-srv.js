@@ -8,21 +8,40 @@ var alonePlayer = null;
 var games = {};
 var pCounter = 1;
 
+function Game(player1, player2) {
+  this.id = 'game' + Math.random();
+  games[this.id] = this;
+  this.players = [player1, player2];
+  player1.joinGame(this);
+  player2.joinGame(this);
+  io.to(this.id).emit('news', { hello: 'world',
+    player1: player1.name,
+    player2: player2.name
+  });
+}
+
+Game.prototype.end = function() {
+  this.players[0].exit();
+  this.players[1].exit();
+  delete games[this.id];
+};
+
 function Player(socket) {
   this.socket = socket;
   this.name = 'player' + pCounter++;
   socket.on('disconnect', this.onExit.bind(this));
 }
 
-Player.prototype.joinGame = function(gameID) {
-  this.gameID = gameID;
-  this.socket.join(gameID);
-  this.socket.on('event', function(data){ log(data) });
+Player.prototype.joinGame = function(game) {
+  this.game = game;
+  this.socket.join(game.id);
+  this.socket.on('usrCmd', function(data){ log.debug('usrCmd',data) });
   this.socket.emit('news', { message: 'My key', key:this.whoInTheGame().me.key });
 };
 
 Player.prototype.whoInTheGame = function() {
-  var players = games[this.gameID].players;
+  if (!this.game) return {};
+  var players = this.game.players;
   if ( players[0] == this ) {
     return {
       me: {obj:players[0], key:'player1'},
@@ -37,27 +56,25 @@ Player.prototype.whoInTheGame = function() {
 };
 
 Player.prototype.onExit = function() {
+  if (!this.game) return;
   var otherPlayer = this.whoInTheGame().other.obj;
   otherPlayer.socket.emit('news', {
     message: 'Your pair leaves the game.',
     kickerId: this.socket.id
   });
-  otherPlayer.exit();
+  this.game.end();
 };
 
 Player.prototype.exit = function() {
-  var otherPlayer = this.whoInTheGame().other.obj;
+  if (!this.game) return;
   this.socket.disconnect();
-  games[this.gameID] = this.gameID = null;
-  if (otherPlayer.gameID) {
-    otherPlayer.exit();
-  }
+  this.game = null;
 };
 
 io.on('connection', function(socket) {
   if ( alonePlayer && alonePlayer.id != socket.id ) {
     socket.emit('news', { message: 'Entering a game...', id:socket.id });
-    startGame(alonePlayer, new Player(socket));
+    new Game(alonePlayer, new Player(socket));
     alonePlayer = null;
   } else {
     alonePlayer = new Player(socket);
@@ -65,15 +82,3 @@ io.on('connection', function(socket) {
   }
 });
 
-function startGame(player1, player2) {
-  var gameID = 'game' + Math.random();
-  games[gameID] = {
-    players: [player1, player2]
-  };
-  player1.joinGame(gameID);
-  player2.joinGame(gameID);
-  io.to(gameID).emit('news', { hello: 'world',
-    player1: player1.name,
-    player2: player2.name
-  });
-}

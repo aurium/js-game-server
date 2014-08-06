@@ -8,7 +8,7 @@ function connect() {
 
   socket.on('news', function (data) {
     console.log(data);
-    socket.emit('my other event', { my: 'data' });
+    socket.emit('usrCmd', { cmd: 'hi' });
   });
 
   socket.on('disconnect', function (data) {
