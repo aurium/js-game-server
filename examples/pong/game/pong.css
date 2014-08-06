@@ -18,19 +18,40 @@ h1 {
   color: #555;
 }
 
+#messageBox {
+  position: absolute;
+  bottom: 10%;
+  left: 10%;
+  width: 80%;
+  text-align: center;
+}
+
+#messageBox p {
+  color: #FFF;
+  margin: 0;
+  opacity: 0;
+  transition: 10s;
+}
+#messageBox p.show {
+  opacity: 1;
+  transition: 0s;
+}
+
 #game {
   position: relative;
   height: calc(100% - 6vh);
   border: 3vh solid #FFF;
   border-left: none;
   border-right: none;
+  overflow: hidden;
 }
 
 #pad1, #pad2 {
   position: absolute;
-  top: 45%;
-  width: 2%;
+  top: 50%;
+  margin-top: -3%;
   height: 10%;
+  width: 2%;
   background: #FFF;
 }
 
@@ -44,10 +65,11 @@ h1 {
 
 #ball {
   position: absolute;
-  top: 48.5%;
-  left: 48.5%;
+  top: 50%;
+  left: 50%;
   width: 3vw;
   height: 3vw;
+  margin: -3vw 0 0 -3vw;
   border-radius: 2vw;
   background: #FFF;
 }
