@@ -52,3 +52,55 @@ h1 {
   background: #FFF;
 }
 
+#dialog {
+  position: absolute;
+  top: calc(50% - 125px);
+  left: calc(50% - 125px);
+  width: 200px;
+  height: 200px;
+  padding: 20px;
+  border: 5px solid #DDD;
+  background: #BBB;
+  font-size: 14px;
+  color: #333;
+}
+
+#dialogTitle {
+  font-size: 20px;
+  line-height: 30px;
+  color: #EEE;
+  background: #888;
+  text-align: center;
+  margin: -20px -20px 20px -20px;
+  border-bottom: 2px solid #DDD;
+}
+
+#dialogBtClose {
+  cursor: pointer;
+  display: block;
+  width: 30px;
+  font-size: 30px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 20px;
+  border: 3px solid #DDD;
+  background: #888;
+  color: #EEE;
+  position: absolute;
+  right: -15px;
+  top: -10px;
+}
+
+#dialogContent {
+}
+
+#dialogBtFunc {
+  cursor: pointer;
+  border: 2px solid #DDD;
+  background: #888;
+  color: #EEE;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 10px;
+}

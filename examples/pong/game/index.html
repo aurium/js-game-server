@@ -1,17 +1,24 @@
 <html>
   <head>
+    <meta charset="utf-8">
     <title>Pong</title>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1" />
-    <script src="https://cdn.socket.io/socket.io-1.0.6.js"></script>
     <link rel="stylesheet" href="pong.css" type="text/css" media="all" />
+    <script src="https://cdn.socket.io/socket.io-1.0.6.js"></script>
+    <script src="pong-cli.js"></script>
   </head>
-  <body>
+  <body onload="connect()">
     <h1>Pong</h1>
     <div id="game">
       <div id="pad1"></div>
       <div id="pad2"></div>
       <div id="ball"></div>
     </div>
-    <script src="pong-cli.js"></script>
+    <div id="dialog" style="display:none">
+      <h2 id="dialogTitle">Dialog Title</h2>
+      <b id="dialogBtClose" onclick="this.parentNode.style.display='none'">&times;</b>
+      <div id="dialogContent">Dialog content.</div>
+      <b id="dialogBtFunc">Button</b>
+    </div>
   </body>
 </html>

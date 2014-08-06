@@ -1,8 +1,33 @@
 'use strict';
 
-var socket = io(document.location.href);
+var socket = {};
 
-socket.on('news', function (data) {
-  console.log(data);
-  socket.emit('my other event', { my: 'data' });
-});
+function connect() {
+  console.log('connecting');
+  if (!socket.connected) socket = io(document.location.href);
+
+  socket.on('news', function (data) {
+    console.log(data);
+    socket.emit('my other event', { my: 'data' });
+  });
+
+  socket.on('disconnect', function (data) {
+    console.log('disconnected', data);
+    openDialog(
+      'Disconnected', 'Do you want to reconnect?',
+      'Reconnect', function() {
+        document.location.reload();
+        dialog.style.display = 'none';
+    });
+  });
+}
+
+function openDialog(title, content, btLabel, btFunc) {
+  console.log('open dialog', title, dialog);
+  dialog.style.display = 'block';
+  dialogTitle.innerHTML = title;
+  dialogContent.innerHTML = content;
+  dialogBtFunc.innerHTML = btLabel;
+  dialogBtFunc.onclick = btFunc;
+  console.log('open dialog done');
+}

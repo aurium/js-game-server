@@ -39,7 +39,7 @@ Player.prototype.whoInTheGame = function() {
 Player.prototype.onExit = function() {
   var otherPlayer = this.whoInTheGame().other.obj;
   otherPlayer.socket.emit('news', {
-    message: 'Your pair exits',
+    message: 'Your pair leaves the game.',
     kickerId: this.socket.id
   });
   otherPlayer.exit();
