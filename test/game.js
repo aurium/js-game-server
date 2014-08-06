@@ -15,11 +15,11 @@ describe('Game module', function() {
   });
 
   it('should load configuration from non configured game', function() {
-    var game = new Game('examples/some-other-game');
+    var game = new Game('test/examples/poor-game');
     game.should.have.property('port').greaterThan(3000);
-    game.pakConfig.name.should.be.equal('some-other-game');
-    game.gameConfig.title.should.be.equal('some-other-game');
-    game.codeName.should.be.equal('some-other-game');
+    game.pakConfig.name.should.be.equal('poor-game');
+    game.gameConfig.title.should.be.equal('poor-game');
+    game.codeName.should.be.equal('poor-game');
   });
 
   it('should find main file', function() {
