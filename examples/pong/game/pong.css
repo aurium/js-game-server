@@ -5,6 +5,7 @@ body {
   padding: 0;
   font: 3vw sans-serif;
   height: 100%;
+  overflow: hidden;
 }
 
 h1 {
@@ -37,7 +38,7 @@ h1 {
   transition: 0s;
 }
 
-#game {
+#gameArea {
   position: relative;
   height: calc(100% - 6vh);
   border: 3vh solid #FFF;
@@ -49,9 +50,9 @@ h1 {
 #pad1, #pad2 {
   position: absolute;
   top: 50%;
-  margin-top: -3%;
-  height: 10%;
-  width: 2%;
+  margin-top: -5vh;
+  height: 10vh;
+  width: 2vw;
   background: #FFF;
 }
 
@@ -69,7 +70,7 @@ h1 {
   left: 50%;
   width: 3vw;
   height: 3vw;
-  margin: -3vw 0 0 -3vw;
+  margin: -1.5vw 0 0 -1.5vw;
   border-radius: 2vw;
   background: #FFF;
 }

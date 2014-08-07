@@ -62,19 +62,20 @@ var lastY = 0;
 var currentY = 0;
 document.ontouchmove = function(ev) {
   currentY = ev.touches[0].screenY;
+  ev.preventDefault();
 };
 document.onmousemove = function(ev) {
   currentY = ev.clientY;
 };
 setInterval(function(){
   // Submit mouse pos only each 33ms if it was changed.
-  if (!connected) return;
+  if (!connected || !config.playing) return;
   if (lastY != currentY) {
-    console.log('Update Y', currentY/game.clientHeight);
+    //console.log('Update Y', currentY/document.body.clientHeight);
     lastY = currentY
     socket.emit('usrCmd', {
-      cmd: 'click',
-      y: currentY/game.clientHeight
+      cmd: 'move',
+      y: currentY/document.body.clientHeight
     });
   }
 }, 33);

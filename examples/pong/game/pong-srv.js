@@ -16,20 +16,53 @@ function Game(player1, player2) {
   player2.joinGame(this);
   io.to(this.id)
     .emit('news', { message: 'You found a pair to play' })
-    .emit('config', { player1: player1.name, player2: player2.name });
+    .emit('config', { playing:true, player1:player1.name, player2:player2.name });
   setTimeout(this.tic.bind(this), 1000);
-  this.ball = { x:0.5, y:0.5 };
+  this.ball = { x:0.5, y:0.5, inc:{ x:0.005, y:0.008 } };
 }
+
+Game.prototype.testBallTouchMyPad = function(player, range, dirX, incY) {
+  if (this.ball.y <= player.padY+range && this.ball.y >= player.padY-range) {
+    this.ball.inc.x = Math.abs(this.ball.inc.x) * dirX;
+    this.ball.inc.y += this.ball.y<player.padY ? -incY : incY;
+    return true;
+  }
+  return false;
+};
+
+Game.prototype.playerLostBall = function(pIndex) {
+  var player = this.players[pIndex];
+  //TODO: register points.
+  io.to(this.id).emit('news', { message: player.name+' lost the ball.' });
+  this.ball = { x:0.5, y:0.5, inc:{ x:0.005, y:0.001 } };
+};
 
 Game.prototype.tic = function() {
   if (!games[this.id]) return;
-  this.ball.x += 0.01;
-  this.ball.y += 0.01;
-  this.players[0].padY = (this.players[0].padY + this.players[0].gotoY) / 2;
-  this.players[1].padY = (this.players[1].padY + this.players[1].gotoY) / 2;
+  var p1 = this.players[0];
+  var p2 = this.players[1];
+  p1.padY = (p1.padY*2 + p1.gotoY) / 3;
+  p2.padY = (p2.padY*2 + p2.gotoY) / 3;
+  var inc = this.ball.inc;
+  this.ball.x += inc.x;
+  this.ball.y += inc.y;
+  if (this.ball.y <= 0.05) inc.y = Math.abs(this.ball.inc.y);
+  if (this.ball.y >= 0.95) inc.y = Math.abs(this.ball.inc.y) * -1;
+  if (this.ball.x <= 0.02 && this.ball.x >= 0.01) {
+    if      (this.testBallTouchMyPad(p1, 0.03, 1, 0));
+    else if (this.testBallTouchMyPad(p1, 0.04, 1, 0.001));
+    else if (this.testBallTouchMyPad(p1, 0.05, 1, 0.002));
+  }
+  if (this.ball.x >= 0.98 && this.ball.x <= 0.99) {
+    if      (this.testBallTouchMyPad(p2, 0.03, -1, 0));
+    else if (this.testBallTouchMyPad(p2, 0.04, -1, 0.001));
+    else if (this.testBallTouchMyPad(p2, 0.05, -1, 0.002));
+  }
+  if (this.ball.x < 0) this.playerLostBall(0);
+  if (this.ball.x > 1) this.playerLostBall(1);
   io.to(this.id).emit('config', {
-    pad1: this.players[0].padY,
-    pad2: this.players[1].padY,
+    pad1: p1.padY,
+    pad2: p2.padY,
     ballX: this.ball.x,
     ballY: this.ball.y
   });
@@ -58,10 +91,10 @@ Player.prototype.joinGame = function(game) {
 
 Player.prototype.onCmd = function(data){
   log.debug('usrCmd', data);
-  if (data.cmd=='click') this.onClick(data);
+  if (data.cmd=='move') this.onMove(data);
 };
 
-Player.prototype.onClick = function(data){
+Player.prototype.onMove = function(data){
   this.gotoY = data.y;
 };
 
@@ -94,6 +127,7 @@ Player.prototype.onExit = function() {
 
 Player.prototype.exit = function() {
   if (!this.game) return;
+  this.socket.emit('config', { playing:false });
   this.socket.disconnect();
   this.game = null;
 };
