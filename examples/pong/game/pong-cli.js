@@ -1,7 +1,7 @@
 'use strict';
 
 var socket = {};
-var config = {};
+var config = { pad1:0.5, pad2:0.5, ballX:0.5, ballY:0.5 };
 var connected = false;
 
 function connect() {
@@ -58,12 +58,24 @@ function openDialog(title, content, btLabel, btFunc) {
   console.log('open dialog done');
 }
 
-game.onclick = function(ev) {
-  console.log('click',ev);
-  if (!connected) return;
-  socket.emit('usrCmd', {
-    cmd: 'click',
-    y: ev.clientY/game.clientHeight
-  });
+var lastY = 0;
+var currentY = 0;
+document.ontouchmove = function(ev) {
+  currentY = ev.touches[0].screenY;
 };
+document.onmousemove = function(ev) {
+  currentY = ev.clientY;
+};
+setInterval(function(){
+  // Submit mouse pos only each 33ms if it was changed.
+  if (!connected) return;
+  if (lastY != currentY) {
+    console.log('Update Y', currentY/game.clientHeight);
+    lastY = currentY
+    socket.emit('usrCmd', {
+      cmd: 'click',
+      y: currentY/game.clientHeight
+    });
+  }
+}, 33);
 
