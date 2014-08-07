@@ -82,6 +82,7 @@ Player.prototype.whoInTheGame = function() {
 };
 
 Player.prototype.onExit = function() {
+  if (this==alonePlayer) alonePlayer = null;
   if (!this.game) return;
   var otherPlayer = this.whoInTheGame().other.obj;
   otherPlayer.socket.emit('news', {
