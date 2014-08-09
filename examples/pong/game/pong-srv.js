@@ -12,18 +12,29 @@ function Game(player1, player2) {
   this.id = 'game' + Math.random();
   games[this.id] = this;
   this.players = [player1, player2];
+  log('Start game', { id:this.id, players:this.players });
   player1.joinGame(this);
   player2.joinGame(this);
   io.to(this.id)
     .emit('news', { message: 'You found a pair to play' })
     .emit('config', { playing:true, player1:player1.name, player2:player2.name });
   setTimeout(this.tic.bind(this), 1000);
-  this.ball = { x:0.5, y:0.5, inc:{ x:0.005, y:0.008 } };
+  this.ball = { x:0.5, y:0.5, inc:{ x:0.005, y:0 } };
+}
+
+Game.prototype.updateNames = function() {
+  io.to(this.id).emit('config', {
+    player1: this.players[0].name,
+    player2: this.players[1].name
+  });
 }
 
 Game.prototype.testBallTouchMyPad = function(player, range, dirX, incY) {
   if (this.ball.y <= player.padY+range && this.ball.y >= player.padY-range) {
-    this.ball.inc.x = Math.abs(this.ball.inc.x) * dirX;
+    // Ball get faster on X when "pong".
+    this.ball.inc.x = (Math.abs(this.ball.inc.x) + 0.001) * dirX;
+    if (Math.abs(this.ball.inc.x) > 0.015) this.ball.inc.x = 0.015 * dirX;
+    log('Ball X velocity.', this.ball.inc.x);
     this.ball.inc.y += this.ball.y<player.padY ? -incY : incY;
     return true;
   }
@@ -34,7 +45,7 @@ Game.prototype.playerLostBall = function(pIndex) {
   var player = this.players[pIndex];
   //TODO: register points.
   io.to(this.id).emit('news', { message: player.name+' lost the ball.' });
-  this.ball = { x:0.5, y:0.5, inc:{ x:0.005, y:0.001 } };
+  this.ball = { x:0.5, y:0.5, inc:{ x:0.005, y:(Math.random()*2-1)/100 } };
 };
 
 Game.prototype.tic = function() {
@@ -48,12 +59,12 @@ Game.prototype.tic = function() {
   this.ball.y += inc.y;
   if (this.ball.y <= 0.05) inc.y = Math.abs(this.ball.inc.y);
   if (this.ball.y >= 0.95) inc.y = Math.abs(this.ball.inc.y) * -1;
-  if (this.ball.x <= 0.02 && this.ball.x >= 0.01) {
+  if (this.ball.x < 0.025 && this.ball.x >= 0.005) {
     if      (this.testBallTouchMyPad(p1, 0.03, 1, 0));
     else if (this.testBallTouchMyPad(p1, 0.04, 1, 0.001));
     else if (this.testBallTouchMyPad(p1, 0.05, 1, 0.002));
   }
-  if (this.ball.x >= 0.98 && this.ball.x <= 0.99) {
+  if (this.ball.x > 0.975 && this.ball.x <= 0.995) {
     if      (this.testBallTouchMyPad(p2, 0.03, -1, 0));
     else if (this.testBallTouchMyPad(p2, 0.04, -1, 0.001));
     else if (this.testBallTouchMyPad(p2, 0.05, -1, 0.002));
@@ -70,6 +81,7 @@ Game.prototype.tic = function() {
 };
 
 Game.prototype.end = function() {
+  log('End game', { id:this.id, players:this.players });
   this.players[0].exit();
   this.players[1].exit();
   delete games[this.id];
@@ -78,6 +90,7 @@ Game.prototype.end = function() {
 function Player(socket) {
   this.socket = socket;
   this.name = 'player' + pCounter++;
+  socket.on('playerInfo', this.onPlayerInfo.bind(this));
   socket.on('disconnect', this.onExit.bind(this));
   this.padY = this.gotoY = 0.5;
 }
@@ -85,17 +98,18 @@ function Player(socket) {
 Player.prototype.joinGame = function(game) {
   this.game = game;
   this.socket.join(game.id);
-  this.socket.on('usrCmd', this.onCmd.bind(this));
+  this.socket.on('move', this.onMove.bind(this));
   this.socket.emit('news', { message: 'My key', key:this.whoInTheGame().me.key });
-};
-
-Player.prototype.onCmd = function(data){
-  log.debug('usrCmd', data);
-  if (data.cmd=='move') this.onMove(data);
 };
 
 Player.prototype.onMove = function(data){
   this.gotoY = data.y;
+};
+
+Player.prototype.onPlayerInfo = function(data){
+  log('playerInfo', data);
+  this.name = data.name;
+  if(this.game) this.game.updateNames();
 };
 
 Player.prototype.whoInTheGame = function() {
@@ -122,12 +136,12 @@ Player.prototype.onExit = function() {
     message: 'Your pair leaves the game.',
     kickerId: this.socket.id
   });
-  this.game.end();
+  this.game.end('Your pair leaves the game.');
 };
 
-Player.prototype.exit = function() {
+Player.prototype.exit = function(msg) {
   if (!this.game) return;
-  this.socket.emit('config', { playing:false });
+  this.socket.emit('config', { playing:false, message:msg });
   this.socket.disconnect();
   this.game = null;
 };

@@ -38,6 +38,19 @@ h1 {
   transition: 0s;
 }
 
+#player1, #player2 {
+  position: absolute;
+  top: 3vh;
+  margin: 0;
+  color: #777;
+}
+#player1{
+  left: 2vw;
+}
+#player2 {
+  right: 2vw;
+}
+
 #gameArea {
   position: relative;
   height: calc(100% - 6vh);
@@ -77,13 +90,13 @@ h1 {
 
 #dialog {
   position: absolute;
-  top: calc(50% - 125px);
+  top: calc(50% - 110px);
   left: calc(50% - 125px);
   width: 200px;
-  height: 200px;
-  padding: 20px;
+  padding: 10px;
   border: 5px solid #DDD;
   background: #BBB;
+  text-align: right;
   font-size: 14px;
   color: #333;
 }
@@ -94,7 +107,7 @@ h1 {
   color: #EEE;
   background: #888;
   text-align: center;
-  margin: -20px -20px 20px -20px;
+  margin: -10px -10px 0 -10px;
   border-bottom: 2px solid #DDD;
 }
 
@@ -115,15 +128,25 @@ h1 {
 }
 
 #dialogContent {
+  text-align: left;
+  padding: 20px 10px;
+  border-bottom: 1px solid #CCC;
+}
+
+#dialog input {
+  width: 100%;
+  border: 1px solid #888;
+  background: #FFF;
+  font-size: 20px;
+  text-align: center;
 }
 
 #dialogBtFunc {
   cursor: pointer;
+  display: inline-block;
   border: 2px solid #DDD;
   background: #888;
   color: #EEE;
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  padding: 10px;
+  margin-top: 10px;
+  padding: 5px 10px;
 }
