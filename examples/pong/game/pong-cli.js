@@ -16,13 +16,20 @@ function connect() {
   setTimeout(tic, 10);
 }
 
+window.requestAnimationFrame =
+  window.requestAnimationFrame ||
+  window.mozRequestAnimationFrame ||
+  window.webkitRequestAnimationFrame ||
+  window.msRequestAnimationFrame ||
+  function(fn){ setTimeout(fn, 33); };
+
 function tic() {
   if (!connected) return;
   pad1.style.top  = (100 * config.pad1)  + '%';
   pad2.style.top  = (100 * config.pad2)  + '%';
   ball.style.top  = (100 * config.ballY) + '%';
   ball.style.left = (100 * config.ballX) + '%';
-  setTimeout(tic, 33);
+  window.requestAnimationFrame(tic);
 };
 
 function onNews(data) {
@@ -38,8 +45,8 @@ function onNews(data) {
 var endGameMsg = 'The server connection dropped.';
 function onConfig(data) {
   for (var k in data) { config[k] = data[k] }
-  player1.innerHTML = config.player1;
-  player2.innerHTML = config.player2;
+  player1.innerHTML = config.player1 + ' <b>'+config.pointsP1+'</b>';
+  player2.innerHTML = '<b>'+config.pointsP2+'</b> ' + config.player2;
   if (data.playing===false) {
     endGameMsg = data.message || 'The server connection dropped.';
   }

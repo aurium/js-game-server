@@ -17,7 +17,11 @@ function Game(player1, player2) {
   player2.joinGame(this);
   io.to(this.id)
     .emit('news', { message: 'You found a pair to play' })
-    .emit('config', { playing:true, player1:player1.name, player2:player2.name });
+    .emit('config', {
+      playing:true,
+      player1:player1.name, player2:player2.name,
+      pointsP1:player1.points, pointsP2:player2.points
+    });
   setTimeout(this.tic.bind(this), 1000);
   this.ball = { x:0.5, y:0.5, inc:{ x:0.005, y:0 } };
 }
@@ -34,7 +38,6 @@ Game.prototype.testBallTouchMyPad = function(player, range, dirX, incY) {
     // Ball get faster on X when "pong".
     this.ball.inc.x = (Math.abs(this.ball.inc.x) + 0.001) * dirX;
     if (Math.abs(this.ball.inc.x) > 0.015) this.ball.inc.x = 0.015 * dirX;
-    log('Ball X velocity.', this.ball.inc.x);
     this.ball.inc.y += this.ball.y<player.padY ? -incY : incY;
     return true;
   }
@@ -42,9 +45,15 @@ Game.prototype.testBallTouchMyPad = function(player, range, dirX, incY) {
 };
 
 Game.prototype.playerLostBall = function(pIndex) {
-  var player = this.players[pIndex];
-  //TODO: register points.
-  io.to(this.id).emit('news', { message: player.name+' lost the ball.' });
+  var p = this.players;
+  var player = p[pIndex];
+  var otherPlayer = p[ pIndex==0 ? 1 : 0 ];
+  // Register points.
+  otherPlayer.points++;
+  // Notify players
+  io.to(this.id).emit('news', { message: player.name+' lost the ball.' })
+                .emit('config', { pointsP1:p[0].points, pointsP2:p[1].points });
+  // Restart ball
   this.ball = { x:0.5, y:0.5, inc:{ x:0.005, y:(Math.random()*2-1)/100 } };
 };
 
@@ -97,6 +106,7 @@ function Player(socket) {
 
 Player.prototype.joinGame = function(game) {
   this.game = game;
+  this.points = 0;
   this.socket.join(game.id);
   this.socket.on('move', this.onMove.bind(this));
   this.socket.emit('news', { message: 'My key', key:this.whoInTheGame().me.key });
@@ -107,7 +117,6 @@ Player.prototype.onMove = function(data){
 };
 
 Player.prototype.onPlayerInfo = function(data){
-  log('playerInfo', data);
   this.name = data.name;
   if(this.game) this.game.updateNames();
 };
