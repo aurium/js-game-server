@@ -1,3 +1,4 @@
 node_modules
 config.json
 lib/lobby/public/*.css
+examples/*/data.json
