@@ -45,8 +45,12 @@ function onNews(data) {
 var endGameMsg = 'The server connection dropped.';
 function onConfig(data) {
   for (var k in data) { config[k] = data[k] }
-  player1.innerHTML = config.player1 + ' <b>'+config.pointsP1+'</b>';
-  player2.innerHTML = '<b>'+config.pointsP2+'</b> ' + config.player2;
+  player1.innerHTML = config.player1 +
+                      ' <b>'+config.pointsP1+'</b>' +
+                      '<br><small>Last record '+config.recordP1+'</small>';
+  player2.innerHTML = '<b>'+config.pointsP2+'</b> ' +
+                      config.player2 +
+                      '<br><small>Last record '+config.recordP2+'</small>';
   if (data.playing===false) {
     endGameMsg = data.message || 'The server connection dropped.';
   }

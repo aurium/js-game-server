@@ -1,12 +1,11 @@
 'use strict';
 
-log('Hi! This is pong.');
-
 var io = require('sandbox-io');
 
 var alonePlayer = null;
 var games = {};
 var pCounter = 1;
+var records = db('records') || {};
 
 function Game(player1, player2) {
   this.id = 'game' + Math.random();
@@ -20,7 +19,8 @@ function Game(player1, player2) {
     .emit('config', {
       playing:true,
       player1:player1.name, player2:player2.name,
-      pointsP1:player1.points, pointsP2:player2.points
+      pointsP1:player1.points, pointsP2:player2.points,
+      recordP1:player1.lastRecord, recordP2:player2.lastRecord
     });
   setTimeout(this.tic.bind(this), 1000);
   this.ball = { x:0.5, y:0.5, inc:{ x:0.005, y:0 } };
@@ -49,7 +49,7 @@ Game.prototype.playerLostBall = function(pIndex) {
   var player = p[pIndex];
   var otherPlayer = p[ pIndex==0 ? 1 : 0 ];
   // Register points.
-  otherPlayer.points++;
+  otherPlayer.inkPoints();
   // Notify players
   io.to(this.id).emit('news', { message: player.name+' lost the ball.' })
                 .emit('config', { pointsP1:p[0].points, pointsP2:p[1].points });
@@ -107,9 +107,20 @@ function Player(socket) {
 Player.prototype.joinGame = function(game) {
   this.game = game;
   this.points = 0;
+  log('records', records);
+  this.lastRecord = records[this.name] || 0;
+  log('lastRecord', this.name, records[this.name], this.lastRecord);
   this.socket.join(game.id);
   this.socket.on('move', this.onMove.bind(this));
   this.socket.emit('news', { message: 'My key', key:this.whoInTheGame().me.key });
+};
+
+Player.prototype.inkPoints = function() {
+  this.points++;
+  if ( this.points > this.lastRecord ) {
+    records[this.name] = this.points;
+    db('records', records);
+  }
 };
 
 Player.prototype.onMove = function(data){
@@ -156,13 +167,18 @@ Player.prototype.exit = function(msg) {
 };
 
 io.on('connection', function(socket) {
-  if ( alonePlayer && alonePlayer.id != socket.id ) {
-    socket.emit('news', { message: 'Entering in a game...', id:socket.id });
-    new Game(alonePlayer, new Player(socket));
+  log.debug('New connection', socket.id);
+  var newPlayer = new Player(socket);
+  if ( alonePlayer ) { // && alonePlayer.socket.id != socket.id ) {
+    socket.emit('news', { message: 'Entering in a game...' });
+    var firstPlayer = alonePlayer;
     alonePlayer = null;
+    // Give some time to player info to arrive.
+    setTimeout(function(){ new Game(firstPlayer, newPlayer); }, 500);
+    //new Game(alonePlayer, newPlayer);
   } else {
-    alonePlayer = new Player(socket);
-    socket.emit('news', { message: 'Waiting for a pair...', id:socket.id });
+    socket.emit('news', { message: 'Waiting for a pair...' });
+    alonePlayer = newPlayer;
   }
 });
 
