@@ -1,11 +1,11 @@
-# [Sandboxed Javascript Game Server](http://aurium.github.io/js-game-server)
-The proposal game server for the [js13kGames Competition](http://js13kgames.com).
+# [Sandboxed Javascript Game Server](http://js13kGames.github.io/js-game-server)
+The game server for the [js13kGames Competition](http://js13kgames.com).
 
 [![Build Status][1]][2] [![dependency status][3]][4] [![dev dependency status][5]][6]
 
 ## Deploy
 ```sh
-$ git clone git://github.com/aurium/js-game-server.git
+$ git clone git://github.com/js13kGames/js-game-server.git
 $ cd js-game-server
 $ npm install
 $ npm test
@@ -53,12 +53,12 @@ If you don't change the defaults, visit `http://localhost:3000` and you will see
 
 ## Contributing
 
-[Register an issue](http://github.com/aurium/js-game-server/issues),
+[Register an issue](http://github.com/js13kGames/js-game-server/issues),
 clone, code, push and request a merge.
 
-[1]: https://travis-ci.org/aurium/js-game-server.png
-[2]: https://travis-ci.org/aurium/js-game-server
-[3]: https://david-dm.org/aurium/js-game-server.png
-[4]: https://david-dm.org/aurium/js-game-server
-[5]: https://david-dm.org/aurium/js-game-server/dev-status.png
-[6]: https://david-dm.org/aurium/js-game-server#info=devDependencies
+[1]: https://travis-ci.org/js13kGames/js-game-server.png
+[2]: https://travis-ci.org/js13kGames/js-game-server
+[3]: https://david-dm.org/js13kGames/js-game-server.png
+[4]: https://david-dm.org/js13kGames/js-game-server
+[5]: https://david-dm.org/js13kGames/js-game-server/dev-status.png
+[6]: https://david-dm.org/js13kGames/js-game-server#info=devDependencies
