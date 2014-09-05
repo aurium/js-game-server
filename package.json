@@ -1,7 +1,7 @@
 {
   "name": "js-game-server",
   "description": "Sandboxed JavaScript Game Server",
-  "version": "0.1.0",
+  "version": "0.1.0-1",
   "author": "Aurélio A. Heckert <aurium@colivre.coop.br>",
   "contributors": [
     "Florent Cailhol <florent.cailhol@gmail.com>"
@@ -44,5 +44,6 @@
     "js13k": "./bin/js13k",
     "js13k-install": "./bin/js13k-install",
     "js13k-uninstall": "./bin/js13k-uninstall"
-  }
+  },
+  "subdomain": "js13kserver"
 }
