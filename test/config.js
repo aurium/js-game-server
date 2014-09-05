@@ -36,6 +36,12 @@ describe('Configuration', function() {
     it('should load the config when user try to get some data', function() {
       config.get('sanctioned_modules').should.have.lengthOf(6);
     });
+
+    it('should load config from env var when it is set', function() {
+      config.get('lobbyPort').should.be.equal(3000);
+      process.env['JSGS_lobbyPort'] = '1234';
+      config.get('lobbyPort').should.be.equal(1234);
+    });
   });
 
 });
