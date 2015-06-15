@@ -27,12 +27,12 @@ describe('Game module', function() {
   it('should find main file', function() {
     var game = new Game('examples/some-game');
     var srcDir = path.resolve('examples/some-game/game');
-    game.main.should.be.equal(path.join(srcDir,'main.js'));
+    game.main.should.be.equal(path.join(srcDir, 'main.js'));
   });
 
   it('should start a db file', function(done) {
     var gameDir = path.join(sh.tempdir(), 'game.tmp' + Math.random());
-    var dataFile = path.join(gameDir,'data.json');
+    var dataFile = path.join(gameDir, 'data.json');
     sh.cp('-r', 'examples/some-game', gameDir);
     sh.rm('-r', dataFile);
     var game = new Game(gameDir);
@@ -46,7 +46,7 @@ describe('Game module', function() {
 
   it('should use db file', function() {
     var gameDir = path.join(sh.tempdir(), 'game.tmp' + Math.random());
-    var dataFile = path.join(gameDir,'data.json');
+    var dataFile = path.join(gameDir, 'data.json');
     sh.cp('-r', 'examples/some-game', gameDir);
     fs.writeFileSync(dataFile, '{"number": 42}');
     var game = new Game(gameDir);

@@ -10,7 +10,7 @@ var mockFS;
 describe('Configuration', function() {
 
   describe('Load Configuration', function() {
-    require('../lib/logger').setConfig({silentSTDIO:true});
+    require('../lib/logger').setConfig({silentSTDIO: true});
 
     beforeEach(function() {
       mockFS = sinon.mock(fs);
